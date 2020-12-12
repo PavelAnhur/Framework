@@ -7,6 +7,12 @@ import org.openqa.selenium.support.PageFactory;
 
 public class GoogleCloudPricingCalculatorPage {
 
+	public String numberOfGPULocator = "div.md-clickable md-select-menu md-content md-option[value=\"%s\"]";
+	public String chooseGPUTypeLocator = "div.md-clickable md-select-menu md-content md-option[value=\"%s\"]";
+	public String localSSDNumberLocator = "div.md-clickable md-select-menu md-content md-option[value=\"%s\"]";
+	public String datacenterLocationChoiceLocator = "div.md-clickable md-select-menu md-content md-option[value=\"%s\"]";
+	public String committedUsageChoiceLocator = "div.md-clickable md-select-menu md-content md-option[value=\"%s\"]";
+
 	@FindBy(css = "[ng-model$='quantity']")
 	public WebElement inputNumberOfInstances;
 
@@ -34,32 +40,32 @@ public class GoogleCloudPricingCalculatorPage {
 	@FindBy(css = "md-select[ng-model$=gpuCount]")
 	public WebElement numberOfGPUDropdown;
 
-	@FindBy(css = "div.md-clickable md-select-menu md-content md-option[value=\"1\"]")
-	public WebElement chooseNumberOfGPU;
+	@FindBy(css = "div.md-clickable md-select-menu md-content md-option")
+	public WebElement chooseNumberOfGPUOption;
 
 	@FindBy(css = "md-select[placeholder='GPU type']")
 	public WebElement gPUTypeDropdown;
 
-	@FindBy(css = "div.md-clickable md-select-menu md-content md-option[value=\"NVIDIA_TESLA_P4\"]")
-	public WebElement chooseGPUType;
+	@FindBy(css = "div.md-clickable md-select-menu md-content md-option")
+	public WebElement gPUTypeOption;
 
 	@FindBy(css = "md-select[placeholder='Local SSD']")
 	public WebElement localSSDDropdown;
 
-	@FindBy(css = "div.md-clickable md-select-menu md-content md-option[value=\"2\"]")
-	public WebElement chooseLocalSSDNumber;
+	@FindBy(css = "div.md-clickable md-select-menu md-content md-option")
+	public WebElement localSSDNumberOption;
 
 	@FindBy(css = "md-select[placeholder=\"Datacenter location\"]")
 	public WebElement datacenterLocationDropdown;
 
-	@FindBy(css = "div.md-clickable md-select-menu md-content md-option[value=\"europe-west3\"]")
-	public WebElement datacenterLocationChoice;
+	@FindBy(css = "div.md-clickable md-select-menu md-content md-option")
+	public WebElement datacenterLocationOption;
 
 	@FindBy(css = "md-select[placeholder=\"Committed usage\"]")
 	public WebElement committedUsageDropdown;
 
-	@FindBy(css = "div.md-clickable md-select-menu md-content md-option[value=\"1\"]")
-	public WebElement committedUsageChoice;
+	@FindBy(css = "div.md-clickable md-select-menu md-content md-option")
+	public WebElement committedUsageOption;
 
 	@FindBy(xpath = "//button[@aria-label='Add to Estimate']")
 	public WebElement addToEstimateButton;
@@ -69,21 +75,6 @@ public class GoogleCloudPricingCalculatorPage {
 
 	@FindBy(css = "input[ng-model$='email']")
 	public WebElement eMailInputField;
-
-	@FindBy(css = "md-list-item[ng-if*=initialInputs]")
-	public WebElement vMClassFieldInComputeEngineForm;
-
-	@FindBy(xpath = "//*[@id=\"compute\"]/md-list/md-list-item[3]")
-	public WebElement instanceTypeFieldInComputeEngineForm;
-
-	@FindBy(xpath = "//*[@id=\"compute\"]/md-list/md-list-item[4]")
-	public WebElement regionFieldInComputeEngineForm;
-
-	@FindBy(css = "md-list-item[ng-if*=ssd]")
-	public WebElement availableSSDFieldInComputeEngineForm;
-
-	@FindBy(xpath = "//*[@id=\"compute\"]/md-list/md-list-item[6]")
-	public WebElement commitmentFieldInComputeEngineForm;
 
 	@FindBy(css = "b[class=ng-binding]")
 	public WebElement totalCostFieldInComputeEngineForm;

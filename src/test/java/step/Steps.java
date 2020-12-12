@@ -1,8 +1,10 @@
 package step;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import page.googlecloud.GoogleCloudPage;
@@ -52,7 +54,7 @@ public class Steps {
 	public Steps switchToCalculatorFrame() {
 		googleCloudPricingCalculatorPage = new GoogleCloudPricingCalculatorPage(webDriver);
 		webDriver.switchTo().frame(googleCloudPricingCalculatorPage.calculatorIFrame)
-				.switchTo().frame(googleCloudPricingCalculatorPage.myFrame);
+				.switchTo().frame(googleCloudPricingCalculatorPage.internalCalculatorFrame);
 		return this;
 	}
 
@@ -81,33 +83,48 @@ public class Steps {
 		waitForElementVisibility(googleCloudPricingCalculatorPage.addGPUCheckbox);
 		googleCloudPricingCalculatorPage.addGPUCheckbox.click();
 		googleCloudPricingCalculatorPage.numberOfGPUDropdown.click();
-		waitForElementVisibility(googleCloudPricingCalculatorPage.chooseNumberOfGPU);
-		googleCloudPricingCalculatorPage.chooseNumberOfGPU.click();
+		waitForElementVisibility(googleCloudPricingCalculatorPage.chooseNumberOfGPUOption);
+		WebElement numberOfGPU = webDriver
+				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.numberOfGPULocator, "1")));
+		waitForElementVisibility(numberOfGPU);
+		numberOfGPU.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.gPUTypeDropdown);
 		googleCloudPricingCalculatorPage.gPUTypeDropdown.click();
-		waitForElementVisibility(googleCloudPricingCalculatorPage.chooseGPUType);
-		googleCloudPricingCalculatorPage.chooseGPUType.click();
+		waitForElementVisibility(googleCloudPricingCalculatorPage.gPUTypeOption);
+		WebElement GPUType = webDriver
+				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.chooseGPUTypeLocator, "NVIDIA_TESLA_P4")));
+		waitForElementVisibility(GPUType);
+		GPUType.click();
 		return this;
 	}
 
 	public Steps addSSD() {
 		googleCloudPricingCalculatorPage.localSSDDropdown.click();
-		waitForElementVisibility(googleCloudPricingCalculatorPage.chooseLocalSSDNumber);
-		googleCloudPricingCalculatorPage.chooseLocalSSDNumber.click();
+		waitForElementVisibility(googleCloudPricingCalculatorPage.localSSDNumberOption);
+		WebElement localSSDNumber = webDriver
+				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.localSSDNumberLocator, "2")));
+		waitForElementVisibility(localSSDNumber);
+		localSSDNumber.click();
 		return this;
 	}
 
 	public Steps selectDatacenterLocation() {
 		googleCloudPricingCalculatorPage.datacenterLocationDropdown.click();
-		waitForElementVisibility(googleCloudPricingCalculatorPage.datacenterLocationChoice);
-		googleCloudPricingCalculatorPage.datacenterLocationChoice.click();
+		waitForElementVisibility(googleCloudPricingCalculatorPage.datacenterLocationOption);
+		WebElement datacenterLocation = webDriver
+				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.datacenterLocationChoiceLocator, "europe-west3")));
+		waitForElementVisibility(datacenterLocation);
+		datacenterLocation.click();
 		return this;
 	}
 
 	public Steps selectCommittedUsage() {
 		googleCloudPricingCalculatorPage.committedUsageDropdown.click();
-		waitForElementVisibility(googleCloudPricingCalculatorPage.committedUsageChoice);
-		googleCloudPricingCalculatorPage.committedUsageChoice.click();
+		waitForElementVisibility(googleCloudPricingCalculatorPage.committedUsageOption);
+		WebElement committedUsageChoice = webDriver
+				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.committedUsageChoiceLocator, "1")));
+		waitForElementVisibility(committedUsageChoice);
+		committedUsageChoice.click();
 		return this;
 	}
 
@@ -130,7 +147,7 @@ public class Steps {
 	public Steps inputMailAddressIntoEstimateForm() {
 		webDriver.switchTo().window(tabs.get(0));
 		webDriver.switchTo().frame(googleCloudPricingCalculatorPage.calculatorIFrame)
-				.switchTo().frame(googleCloudPricingCalculatorPage.myFrame);
+				.switchTo().frame(googleCloudPricingCalculatorPage.internalCalculatorFrame);
 		googleCloudPricingCalculatorPage.eMailEstimateForm.click();
 		googleCloudPricingCalculatorPage.eMailInputField.sendKeys(eMailAddress);
 		googleCloudPricingCalculatorPage.sendEMail.click();
@@ -146,26 +163,6 @@ public class Steps {
 
 	public String getTextFromMail() {
 		return tenMinutesMailPage.estimateCosInMail.getText();
-	}
-
-	public String getTextFromVMClassField() {
-		return googleCloudPricingCalculatorPage.vMClassFieldInComputeEngineForm.getText();
-	}
-
-	public String getTextFromInstanceTypeField() {
-		return googleCloudPricingCalculatorPage.instanceTypeFieldInComputeEngineForm.getText();
-	}
-
-	public String getTextFromRegionField() {
-		return googleCloudPricingCalculatorPage.regionFieldInComputeEngineForm.getText();
-	}
-
-	public String getTextFromAvailableSSDField() {
-		return googleCloudPricingCalculatorPage.availableSSDFieldInComputeEngineForm.getText();
-	}
-
-	public String getTextFromCommitmentField() {
-		return googleCloudPricingCalculatorPage.commitmentFieldInComputeEngineForm.getText();
 	}
 
 	public String getTotalEstimatedCostString() {
