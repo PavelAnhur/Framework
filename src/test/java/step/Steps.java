@@ -37,6 +37,8 @@ public class Steps {
 		this.webDriver = webDriver;
 		webDriver.manage().window().maximize();
 		eMailAddress = "";
+		this.googleCloudForm = new GoogleCloudForm(1, "NVIDIA_TESLA_P4", 2
+				, "europe-west3", 1);
 	}
 
 	public void openGoogleCloudPage() {
@@ -87,14 +89,16 @@ public class Steps {
 		googleCloudPricingCalculatorPage.numberOfGPUDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.chooseNumberOfGPUOption);
 		WebElement numberOfGPU = webDriver
-				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.numberOfGPULocator, "1")));
+				.findElement(By.cssSelector(String
+						.format(googleCloudPricingCalculatorPage.numberOfGPULocator, googleCloudForm.getGpuNumber())));
 		waitForElementVisibility(numberOfGPU);
 		numberOfGPU.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.gPUTypeDropdown);
 		googleCloudPricingCalculatorPage.gPUTypeDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.gPUTypeOption);
 		WebElement GPUType = webDriver
-				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.chooseGPUTypeLocator, "NVIDIA_TESLA_P4")));
+				.findElement(By.cssSelector(String
+						.format(googleCloudPricingCalculatorPage.chooseGPUTypeLocator, googleCloudForm.getGpuTypeValue())));
 		waitForElementVisibility(GPUType);
 		GPUType.click();
 		return this;
@@ -104,7 +108,8 @@ public class Steps {
 		googleCloudPricingCalculatorPage.localSSDDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.localSSDNumberOption);
 		WebElement localSSDNumber = webDriver
-				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.localSSDNumberLocator, "2")));
+				.findElement(By.cssSelector(String
+						.format(googleCloudPricingCalculatorPage.localSSDNumberLocator, googleCloudForm.getLocalSSDNumber())));
 		waitForElementVisibility(localSSDNumber);
 		localSSDNumber.click();
 		return this;
@@ -114,7 +119,8 @@ public class Steps {
 		googleCloudPricingCalculatorPage.datacenterLocationDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.datacenterLocationOption);
 		WebElement datacenterLocation = webDriver
-				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.datacenterLocationChoiceLocator, "europe-west3")));
+				.findElement(By.cssSelector(String
+						.format(googleCloudPricingCalculatorPage.datacenterLocationChoiceLocator, googleCloudForm.getDatacenterLocationValue())));
 		waitForElementVisibility(datacenterLocation);
 		datacenterLocation.click();
 		return this;
@@ -124,7 +130,8 @@ public class Steps {
 		googleCloudPricingCalculatorPage.committedUsageDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.committedUsageOption);
 		WebElement committedUsageChoice = webDriver
-				.findElement(By.cssSelector(String.format(googleCloudPricingCalculatorPage.committedUsageChoiceLocator, "1")));
+				.findElement(By.cssSelector(String
+						.format(googleCloudPricingCalculatorPage.committedUsageChoiceLocator, googleCloudForm.getCommittedUsageNumber())));
 		waitForElementVisibility(committedUsageChoice);
 		committedUsageChoice.click();
 		return this;
@@ -158,7 +165,7 @@ public class Steps {
 
 	public void getMailOnTenMinutesMailBox() {
 		webDriver.switchTo().window(tabs.get(1));
-		tenMinutesMailPage.inboxCount = new WebDriverWait(webDriver, 15)
+		tenMinutesMailPage.inboxCount = new WebDriverWait(webDriver, 20)
 				.until(ExpectedConditions.visibilityOf(tenMinutesMailPage.inboxCount));
 		tenMinutesMailPage.inboxCount.click();
 	}
