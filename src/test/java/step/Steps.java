@@ -1,5 +1,8 @@
 package step;
 
+import excpetion.CommittedUsageException;
+import excpetion.GPUNumberException;
+import excpetion.LocalSSDNumberException;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -20,6 +23,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static waitmanager.WaitManager.waitForElementVisibility;
 
@@ -31,7 +35,7 @@ public class Steps {
 	private TenMinutesMailPage tenMinutesMailPage;
 	private ArrayList<String> tabs;
 	private String eMailAddress;
-	private GoogleCloudForm googleCloudForm;
+	private final GoogleCloudForm googleCloudForm;
 
 	public Steps(WebDriver webDriver) {
 		this.webDriver = webDriver;
@@ -88,11 +92,16 @@ public class Steps {
 		googleCloudPricingCalculatorPage.addGPUCheckbox.click();
 		googleCloudPricingCalculatorPage.numberOfGPUDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.chooseNumberOfGPUOption);
-		WebElement numberOfGPU = webDriver
-				.findElement(By.cssSelector(String
-						.format(googleCloudPricingCalculatorPage.numberOfGPULocator, googleCloudForm.getGpuNumber())));
+		WebElement numberOfGPU = null;
+		try {
+			numberOfGPU = webDriver
+					.findElement(By.cssSelector(String
+							.format(googleCloudPricingCalculatorPage.numberOfGPULocator, googleCloudForm.getGpuNumber())));
+		} catch (GPUNumberException e) {
+			e.printStackTrace();
+		}
 		waitForElementVisibility(numberOfGPU);
-		numberOfGPU.click();
+		Objects.requireNonNull(numberOfGPU).click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.gPUTypeDropdown);
 		googleCloudPricingCalculatorPage.gPUTypeDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.gPUTypeOption);
@@ -107,11 +116,16 @@ public class Steps {
 	public Steps addSSD() {
 		googleCloudPricingCalculatorPage.localSSDDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.localSSDNumberOption);
-		WebElement localSSDNumber = webDriver
-				.findElement(By.cssSelector(String
-						.format(googleCloudPricingCalculatorPage.localSSDNumberLocator, googleCloudForm.getLocalSSDNumber())));
+		WebElement localSSDNumber = null;
+		try {
+			localSSDNumber = webDriver
+					.findElement(By.cssSelector(String
+							.format(googleCloudPricingCalculatorPage.localSSDNumberLocator, googleCloudForm.getLocalSSDNumber())));
+		} catch (LocalSSDNumberException e) {
+			e.printStackTrace();
+		}
 		waitForElementVisibility(localSSDNumber);
-		localSSDNumber.click();
+		Objects.requireNonNull(localSSDNumber).click();
 		return this;
 	}
 
@@ -129,11 +143,16 @@ public class Steps {
 	public Steps selectCommittedUsage() {
 		googleCloudPricingCalculatorPage.committedUsageDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.committedUsageOption);
-		WebElement committedUsageChoice = webDriver
-				.findElement(By.cssSelector(String
-						.format(googleCloudPricingCalculatorPage.committedUsageChoiceLocator, googleCloudForm.getCommittedUsageNumber())));
+		WebElement committedUsageChoice = null;
+		try {
+			committedUsageChoice = webDriver
+					.findElement(By.cssSelector(String
+							.format(googleCloudPricingCalculatorPage.committedUsageChoiceLocator, googleCloudForm.getCommittedUsageNumber())));
+		} catch (CommittedUsageException e) {
+			e.printStackTrace();
+		}
 		waitForElementVisibility(committedUsageChoice);
-		committedUsageChoice.click();
+		Objects.requireNonNull(committedUsageChoice).click();
 		return this;
 	}
 

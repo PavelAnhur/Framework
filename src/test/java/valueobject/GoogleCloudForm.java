@@ -23,13 +23,9 @@ public class GoogleCloudForm {
 		this.committedUsageNumber = committedUsageNumber;
 	}
 
-	public int getGpuNumber() {
+	public int getGpuNumber() throws GPUNumberException {
 		if (gpuNumber <= 0) {
-			try {
-				throw new GPUNumberException("Number of GPU can't be less than 0");
-			} catch (GPUNumberException e) {
-				e.printStackTrace();
-			}
+			throw new GPUNumberException("Number of GPU can't be less than 0");
 		}
 		return gpuNumber;
 	}
@@ -38,13 +34,9 @@ public class GoogleCloudForm {
 		return gpuTypeValue;
 	}
 
-	public int getLocalSSDNumber() {
+	public int getLocalSSDNumber() throws LocalSSDNumberException {
 		if (localSSDNumber <= 0) {
-			try {
-				throw new LocalSSDNumberException("Number of SSD can't be less than 0");
-			} catch (LocalSSDNumberException e) {
-				e.printStackTrace();
-			}
+			throw new LocalSSDNumberException("Number of SSD can't be less than 0");
 		}
 		return localSSDNumber;
 	}
@@ -53,13 +45,9 @@ public class GoogleCloudForm {
 		return datacenterLocationValue;
 	}
 
-	public int getCommittedUsageNumber() {
+	public int getCommittedUsageNumber() throws CommittedUsageException {
 		if (committedUsageNumber <= 0) {
-			try {
-				throw new CommittedUsageException("Number of committed usage can't be less than 0");
-			} catch (CommittedUsageException e) {
-				e.printStackTrace();
-			}
+			throw new CommittedUsageException("Number of committed usage can't be less than 0");
 		}
 		return committedUsageNumber;
 	}
