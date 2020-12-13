@@ -11,6 +11,7 @@ import page.googlecloud.GoogleCloudPage;
 import page.googlecloud.GoogleCloudPricingCalculatorPage;
 import page.googlecloud.GoogleCloudResultPage;
 import page.tenminutesmail.TenMinutesMailPage;
+import valueobject.GoogleCloudForm;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -30,6 +31,7 @@ public class Steps {
 	private TenMinutesMailPage tenMinutesMailPage;
 	private ArrayList<String> tabs;
 	private String eMailAddress;
+	private GoogleCloudForm googleCloudForm;
 
 	public Steps(WebDriver webDriver) {
 		this.webDriver = webDriver;
