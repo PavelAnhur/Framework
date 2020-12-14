@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import property.PropertyValue;
 
 public class WebDriverSetup {
 
@@ -20,7 +21,7 @@ public class WebDriverSetup {
 	}
 
 	private static void setupWebDriver() {
-		switch (System.getenv("WebDriver")) {
+		switch (new PropertyValue().getBrowser()) {
 			case "Firefox":
 				WebDriverManager.firefoxdriver().setup();
 				driver = new FirefoxDriver();
