@@ -8,19 +8,48 @@ import java.util.Objects;
 
 public class GoogleCloudForm {
 
-	private final int gpuNumber;
-	private final String gpuTypeValue;
-	private final int localSSDNumber;
-	private final String datacenterLocationValue;
-	private final int committedUsageNumber;
+	private int gpuNumber;
+	private String gpuTypeValue;
+	private int localSSDNumber;
+	private String datacenterLocationValue;
+	private int committedUsageNumber;
 
-	public GoogleCloudForm(int gpuNumber, String gpuTypeValue, int localSSDNumber
-			, String datacenterLocationValue, int committedUsageNumber) {
-		this.gpuNumber = gpuNumber;
-		this.gpuTypeValue = gpuTypeValue;
-		this.localSSDNumber = localSSDNumber;
-		this.datacenterLocationValue = datacenterLocationValue;
-		this.committedUsageNumber = committedUsageNumber;
+	public static class BuilderGoogleCloudForm {
+
+		private final GoogleCloudForm newGoogleCloudForm;
+
+		public BuilderGoogleCloudForm() {
+			newGoogleCloudForm = new GoogleCloudForm();
+		}
+
+		public BuilderGoogleCloudForm withGPUNumber(int gpuNumber) {
+			newGoogleCloudForm.gpuNumber = gpuNumber;
+			return this;
+		}
+
+		public BuilderGoogleCloudForm withGPUType(String gpuTypeValue) {
+			newGoogleCloudForm.gpuTypeValue = gpuTypeValue;
+			return this;
+		}
+
+		public BuilderGoogleCloudForm withLocalSSDNumber(int localSSDNumber) {
+			newGoogleCloudForm.localSSDNumber = localSSDNumber;
+			return this;
+		}
+
+		public BuilderGoogleCloudForm withDatacenterLocation(String datacenterLocationValue) {
+			newGoogleCloudForm.datacenterLocationValue = datacenterLocationValue;
+			return this;
+		}
+
+		public BuilderGoogleCloudForm withCommittedUsageNumber(int committedUsageNumber) {
+			newGoogleCloudForm.committedUsageNumber = committedUsageNumber;
+			return this;
+		}
+
+		public GoogleCloudForm build() {
+			return newGoogleCloudForm;
+		}
 	}
 
 	public int getGpuNumber() throws GPUNumberException {

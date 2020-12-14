@@ -41,8 +41,13 @@ public class Steps {
 		this.webDriver = webDriver;
 		webDriver.manage().window().maximize();
 		eMailAddress = "";
-		this.googleCloudForm = new GoogleCloudForm(1, "NVIDIA_TESLA_P4", 2
-				, "europe-west3", 1);
+		this.googleCloudForm = new GoogleCloudForm.BuilderGoogleCloudForm()
+				.withGPUNumber(1)
+				.withGPUType("NVIDIA_TESLA_P4")
+				.withLocalSSDNumber(2)
+				.withDatacenterLocation("europe-west3")
+				.withCommittedUsageNumber(1)
+				.build();
 	}
 
 	public void openGoogleCloudPage() {
