@@ -14,6 +14,7 @@ import page.googlecloud.GoogleCloudPage;
 import page.googlecloud.GoogleCloudPricingCalculatorPage;
 import page.googlecloud.GoogleCloudResultPage;
 import page.tenminutesmail.TenMinutesMailPage;
+import property.PropertyValue;
 import valueobject.GoogleCloudForm;
 
 import java.awt.*;
@@ -41,8 +42,14 @@ public class Steps {
 		this.webDriver = webDriver;
 		webDriver.manage().window().maximize();
 		eMailAddress = "";
-		this.googleCloudForm = new GoogleCloudForm(1, "NVIDIA_TESLA_P4", 2
-				, "europe-west3", 1);
+		PropertyValue propertyValue = new PropertyValue();
+		this.googleCloudForm = new GoogleCloudForm.BuilderGoogleCloudForm()
+				.withGPUNumber(propertyValue.getGpuNumber())
+				.withGPUType(propertyValue.getGpuType())
+				.withLocalSSDNumber(propertyValue.getLocalSSDNumber())
+				.withDatacenterLocation(propertyValue.getDatacenterLocation())
+				.withCommittedUsageNumber(propertyValue.getCommittedUsageNumber())
+				.build();
 	}
 
 	public void openGoogleCloudPage() {
@@ -105,11 +112,11 @@ public class Steps {
 		waitForElementVisibility(googleCloudPricingCalculatorPage.gPUTypeDropdown);
 		googleCloudPricingCalculatorPage.gPUTypeDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.gPUTypeOption);
-		WebElement GPUType = webDriver
+		WebElement gpuType = webDriver
 				.findElement(By.cssSelector(String
 						.format(googleCloudPricingCalculatorPage.chooseGPUTypeLocator, googleCloudForm.getGpuTypeValue())));
-		waitForElementVisibility(GPUType);
-		GPUType.click();
+		waitForElementVisibility(gpuType);
+		gpuType.click();
 		return this;
 	}
 
