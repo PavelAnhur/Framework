@@ -8,10 +8,10 @@ import java.util.Properties;
 
 public class PropertyValue {
 
-	private Properties properties = getProperties();
-	private InputStream inputStream;
+	private static Properties properties = getProperties();
+	private static InputStream inputStream;
 
-	public String getBrowser() {
+	public static String getBrowser() {
 		return properties.getProperty("browser");
 	}
 
@@ -35,11 +35,11 @@ public class PropertyValue {
 		return Integer.parseInt(properties.getProperty("committedUsageNumber"));
 	}
 
-	private Properties getValuesFormPropertyFile() throws IOException {
+	private static Properties getValuesFormPropertyFile() throws IOException {
 		Properties properties = new Properties();
 		try {
 			String propertyFileName = System.getenv("environment") + ".properties";
-			inputStream = getClass().getClassLoader().getResourceAsStream(propertyFileName);
+			inputStream = PropertyValue.class.getClassLoader().getResourceAsStream(propertyFileName);
 
 			if (inputStream != null) {
 				properties.load(inputStream);
@@ -55,7 +55,7 @@ public class PropertyValue {
 		return properties;
 	}
 
-	private Properties getProperties() {
+	private static Properties getProperties() {
 		try {
 			properties = getValuesFormPropertyFile();
 		} catch (IOException e) {

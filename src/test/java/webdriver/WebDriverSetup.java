@@ -21,7 +21,7 @@ public class WebDriverSetup {
 	}
 
 	private static void setupWebDriver() {
-		switch (new PropertyValue().getBrowser()) {
+		switch (PropertyValue.getBrowser()) {
 			case "Firefox":
 				WebDriverManager.firefoxdriver().setup();
 				driver = new FirefoxDriver();
