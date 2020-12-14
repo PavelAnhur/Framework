@@ -1,13 +1,15 @@
 package test;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import step.Steps;
 
 import static webdriver.WebDriverSetup.getDriver;
 
+@Listeners(test.TestListener.class)
 public class TestGoogleCloudPage {
 
 	private Steps steps;
@@ -31,13 +33,14 @@ public class TestGoogleCloudPage {
 				.selectCommittedUsage()
 				.pressAddToEstimate();
 		String totalCostEstimateCost = steps.getTotalEstimateCost();
-		steps.addTenMinutesEMailTab()
-				.getMailAddressFromTenMinutesMailSite()
-				.inputMailAddressIntoEstimateForm()
-				.getMailOnTenMinutesMailBox();
-		String estimateCostFromMail = steps.getEstimateCostFromMail();
+//		steps.addTenMinutesEMailTab()
+//				.getMailAddressFromTenMinutesMailSite()
+//				.inputMailAddressIntoEstimateForm()
+//				.getMailOnTenMinutesMailBox();
+//		String estimateCostFromMail = steps.getEstimateCostFromMail();
 
-		Assert.assertEquals(totalCostEstimateCost, estimateCostFromMail);
+		Assert.fail();
+//		Assert.assertEquals(totalCostEstimateCost, estimateCostFromMail);
 	}
 
 	@After
