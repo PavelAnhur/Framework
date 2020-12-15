@@ -13,6 +13,11 @@ import static webdriver.WebDriverSetup.getDriver;
 public class TestGoogleCloudPage {
 
 	private Steps steps;
+	private String totalCostEstimateCost;
+
+	public TestGoogleCloudPage() {
+		this.totalCostEstimateCost = "";
+	}
 
 	@BeforeTest
 	public void setupClass() {
@@ -21,7 +26,7 @@ public class TestGoogleCloudPage {
 	}
 
 	@Test
-	public void googleCloudTest() {
+	public void googleCloudPageTest() {
 		steps.openPricingCalculator()
 				.switchToCalculatorFrame()
 				.inputNumberOfInstances("4")
@@ -32,7 +37,11 @@ public class TestGoogleCloudPage {
 				.selectDatacenterLocation()
 				.selectCommittedUsage()
 				.pressAddToEstimate();
-		String totalCostEstimateCost = steps.getTotalEstimateCost();
+		totalCostEstimateCost = steps.getTotalEstimateCost();
+	}
+
+	@Test
+	public void tenMinutesMailPageTest() {
 		steps.addTenMinutesEMailTab()
 				.getMailAddressFromTenMinutesMailSite()
 				.inputMailAddressIntoEstimateForm()
@@ -40,7 +49,6 @@ public class TestGoogleCloudPage {
 		String estimateCostFromMail = steps.getEstimateCostFromMail();
 
 		Assert.assertEquals(totalCostEstimateCost, estimateCostFromMail);
-//		Assert.fail();
 	}
 
 	@AfterTest
