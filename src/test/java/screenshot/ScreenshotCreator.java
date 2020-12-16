@@ -13,18 +13,18 @@ import java.util.Date;
 public class ScreenshotCreator {
 
 	public static void getScreenshot() {
-		File screenshotFile = ((TakesScreenshot) WebDriverSetup.getDriver()).getScreenshotAs(OutputType.FILE);
+
+		StringBuffer failedScreenshotPath = new StringBuffer();
+		failedScreenshotPath.append("reports/");
+		failedScreenshotPath.append(new SimpleDateFormat("yyyy.MM.dd-HH.mm").format(new Date()));
+		failedScreenshotPath.append("-screenshot.jpg");
+
 		try {
-			StringBuffer failedScreenshotPath = new StringBuffer();
-			failedScreenshotPath.append("reports/");
-			String currentDate = new SimpleDateFormat("yyyy.MM.dd-HH.mm").format(new Date());
-			failedScreenshotPath.append(currentDate);
-			failedScreenshotPath.append("-screenshot.jpg");
-			FileUtils.copyFile(screenshotFile, new File(String.valueOf(failedScreenshotPath)), true);
+			FileUtils.copyFile(((TakesScreenshot) WebDriverSetup.getDriver()).getScreenshotAs(OutputType.FILE)
+					, new File(String.valueOf(failedScreenshotPath)), true);
 		} catch (
 				IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 }
