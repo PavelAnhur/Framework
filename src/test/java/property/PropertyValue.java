@@ -15,7 +15,7 @@ public class PropertyValue {
 		return properties.getProperty("browser");
 	}
 
-	public int getGpuNumber() {
+	public int getGPUNumberValue() {
 		return Integer.parseInt(properties.getProperty("gpuNumber"));
 	}
 
@@ -38,7 +38,7 @@ public class PropertyValue {
 	private static Properties getValuesFormPropertyFile() throws IOException {
 		Properties properties = new Properties();
 		try {
-			String propertyFileName = System.getenv("environment") + ".properties";
+			String propertyFileName = System.getProperty("environment") + ".properties";
 			inputStream = PropertyValue.class.getClassLoader().getResourceAsStream(propertyFileName);
 
 			if (inputStream != null) {

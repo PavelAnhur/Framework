@@ -44,7 +44,7 @@ public class Steps {
 		eMailAddress = "";
 		PropertyValue propertyValue = new PropertyValue();
 		this.googleCloudForm = new GoogleCloudForm.BuilderGoogleCloudForm()
-				.withGPUNumber(propertyValue.getGpuNumber())
+				.withGPUNumber(propertyValue.getGPUNumberValue())
 				.withGPUType(propertyValue.getGpuType())
 				.withLocalSSDNumber(propertyValue.getLocalSSDNumber())
 				.withDatacenterLocation(propertyValue.getDatacenterLocation())
@@ -97,6 +97,7 @@ public class Steps {
 	public Steps addGPU() {
 		waitForElementVisibility(googleCloudPricingCalculatorPage.addGPUCheckbox);
 		googleCloudPricingCalculatorPage.addGPUCheckbox.click();
+		waitForElementVisibility(googleCloudPricingCalculatorPage.numberOfGPUDropdown);
 		googleCloudPricingCalculatorPage.numberOfGPUDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.chooseNumberOfGPUOption);
 		WebElement numberOfGPU = null;
@@ -183,6 +184,7 @@ public class Steps {
 		webDriver.switchTo().window(tabs.get(0));
 		webDriver.switchTo().frame(googleCloudPricingCalculatorPage.calculatorIFrame)
 				.switchTo().frame(googleCloudPricingCalculatorPage.internalCalculatorFrame);
+		waitForElementVisibility(googleCloudPricingCalculatorPage.eMailEstimateForm);
 		googleCloudPricingCalculatorPage.eMailEstimateForm.click();
 		googleCloudPricingCalculatorPage.eMailInputField.sendKeys(eMailAddress);
 		googleCloudPricingCalculatorPage.sendEMail.click();
@@ -191,7 +193,7 @@ public class Steps {
 
 	public void getMailOnTenMinutesMailBox() {
 		webDriver.switchTo().window(tabs.get(1));
-		tenMinutesMailPage.inboxCount = new WebDriverWait(webDriver, 20)
+		tenMinutesMailPage.inboxCount = new WebDriverWait(webDriver, 60)
 				.until(ExpectedConditions.visibilityOf(tenMinutesMailPage.inboxCount));
 		tenMinutesMailPage.inboxCount.click();
 	}

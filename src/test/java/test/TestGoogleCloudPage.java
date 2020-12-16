@@ -1,25 +1,32 @@
 package test;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 import step.Steps;
 
 import static webdriver.WebDriverSetup.getDriver;
 
+@Listeners(test.TestListener.class)
 public class TestGoogleCloudPage {
 
 	private Steps steps;
+	private String totalCostEstimateCost;
 
-	@Before
+	public TestGoogleCloudPage() {
+		this.totalCostEstimateCost = "";
+	}
+
+	@BeforeTest
 	public void setupClass() {
 		steps = new Steps(getDriver());
 		steps.openGoogleCloudPage();
 	}
 
 	@Test
-	public void googleCloudTest() {
+	public void googleCloudPageTest() {
 		steps.openPricingCalculator()
 				.switchToCalculatorFrame()
 				.inputNumberOfInstances("4")
@@ -30,7 +37,11 @@ public class TestGoogleCloudPage {
 				.selectDatacenterLocation()
 				.selectCommittedUsage()
 				.pressAddToEstimate();
-		String totalCostEstimateCost = steps.getTotalEstimateCost();
+		totalCostEstimateCost = steps.getTotalEstimateCost();
+	}
+
+	@Test
+	public void tenMinutesMailPageTest() {
 		steps.addTenMinutesEMailTab()
 				.getMailAddressFromTenMinutesMailSite()
 				.inputMailAddressIntoEstimateForm()
@@ -40,7 +51,7 @@ public class TestGoogleCloudPage {
 		Assert.assertEquals(totalCostEstimateCost, estimateCostFromMail);
 	}
 
-	@After
+	@AfterTest
 	public void teardown() {
 		steps.quitDriver();
 		steps = null;

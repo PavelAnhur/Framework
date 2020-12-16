@@ -22,7 +22,7 @@ public class GoogleCloudPricingCalculatorPage {
 	@FindBy(id = "myFrame")
 	public WebElement internalCalculatorFrame;
 
-	@FindBy(css = "md-select[ng-change*=Series]")
+	@FindBy(css = "md-select[name='series']")
 	public WebElement seriesSelectField;
 
 	@FindBy(css = "md-option[value=n1]")
