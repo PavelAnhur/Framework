@@ -1,4 +1,4 @@
-package excpetion;
+package exception;
 
 public class LocalSSDNumberException extends Exception {
 

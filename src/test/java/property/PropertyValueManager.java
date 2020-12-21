@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.Properties;
 
-public class PropertyValue {
+public class PropertyValueManager {
 
 	private static Properties properties = getProperties();
 	private static InputStream inputStream;
@@ -39,7 +39,7 @@ public class PropertyValue {
 		Properties properties = new Properties();
 		try {
 			String propertyFileName = System.getProperty("environment") + ".properties";
-			inputStream = PropertyValue.class.getClassLoader().getResourceAsStream(propertyFileName);
+			inputStream = PropertyValueManager.class.getClassLoader().getResourceAsStream(propertyFileName);
 
 			if (inputStream != null) {
 				properties.load(inputStream);

@@ -1,4 +1,4 @@
-package excpetion;
+package exception;
 
 public class CommittedUsageException extends Exception {
 
