@@ -1,8 +1,8 @@
 package step;
 
-import excpetion.CommittedUsageException;
-import excpetion.GPUNumberException;
-import excpetion.LocalSSDNumberException;
+import exception.CommittedUsageException;
+import exception.GPUNumberException;
+import exception.LocalSSDNumberException;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,7 +14,7 @@ import page.googlecloud.GoogleCloudPage;
 import page.googlecloud.GoogleCloudPricingCalculatorPage;
 import page.googlecloud.GoogleCloudResultPage;
 import page.tenminutesmail.TenMinutesMailPage;
-import property.PropertyValue;
+import property.PropertyValueManager;
 import valueobject.GoogleCloudForm;
 
 import java.awt.*;
@@ -42,13 +42,13 @@ public class Steps {
 		this.webDriver = webDriver;
 		webDriver.manage().window().maximize();
 		eMailAddress = "";
-		PropertyValue propertyValue = new PropertyValue();
+		PropertyValueManager propertyValueManager = new PropertyValueManager();
 		this.googleCloudForm = new GoogleCloudForm.BuilderGoogleCloudForm()
-				.withGPUNumber(propertyValue.getGPUNumberValue())
-				.withGPUType(propertyValue.getGpuType())
-				.withLocalSSDNumber(propertyValue.getLocalSSDNumber())
-				.withDatacenterLocation(propertyValue.getDatacenterLocation())
-				.withCommittedUsageNumber(propertyValue.getCommittedUsageNumber())
+				.withGPUNumber(propertyValueManager.getGPUNumberValue())
+				.withGPUType(propertyValueManager.getGpuType())
+				.withLocalSSDNumber(propertyValueManager.getLocalSSDNumber())
+				.withDatacenterLocation(propertyValueManager.getDatacenterLocation())
+				.withCommittedUsageNumber(propertyValueManager.getCommittedUsageNumber())
 				.build();
 	}
 

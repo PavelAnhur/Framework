@@ -28,7 +28,7 @@ public class GoogleCloudPricingCalculatorPage {
 	@FindBy(css = "md-option[value=n1]")
 	public WebElement seriesSelectedOptions;
 
-	@FindBy(css = "md-select[ng-change*='Compute']")
+	@FindBy(css = "md-select[aria-label*='Instance type']")
 	public WebElement machineTypeSelectedField;
 
 	@FindBy(css = "md-option[value$=STANDARD-8]")

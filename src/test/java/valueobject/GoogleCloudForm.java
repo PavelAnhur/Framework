@@ -1,8 +1,8 @@
 package valueobject;
 
-import excpetion.CommittedUsageException;
-import excpetion.GPUNumberException;
-import excpetion.LocalSSDNumberException;
+import exception.CommittedUsageException;
+import exception.GPUNumberException;
+import exception.LocalSSDNumberException;
 
 import java.util.Objects;
 
