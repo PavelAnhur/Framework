@@ -3,7 +3,6 @@ package step;
 import exception.CommittedUsageException;
 import exception.GPUNumberException;
 import exception.LocalSSDNumberException;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +14,7 @@ import page.googlecloud.GoogleCloudPricingCalculatorPage;
 import page.googlecloud.GoogleCloudResultPage;
 import page.tenminutesmail.TenMinutesMailPage;
 import property.PropertyValueManager;
+import util.StringUtils;
 import valueobject.GoogleCloudForm;
 
 import java.awt.*;
@@ -207,11 +207,11 @@ public class Steps {
 	}
 
 	public String getTotalEstimateCost() {
-		return getCostFromString(getTotalEstimatedCostString());
+		return StringUtils.getCostFromString(getTotalEstimatedCostString());
 	}
 
 	public String getEstimateCostFromMail() {
-		return getCostFromString(getTextFromMail());
+		return StringUtils.getCostFromString(getTextFromMail());
 	}
 
 	public void quitDriver() {
@@ -236,15 +236,5 @@ public class Steps {
 			}
 		}
 		return resultMailAddress;
-	}
-
-	private String getCostFromString(String string) {
-		String[] wordsFromString = string.split(" ");
-		for (String word : wordsFromString) {
-			if (NumberUtils.isParsable(String.valueOf(word.charAt(0)))) {
-				return word;
-			}
-		}
-		return null;
 	}
 }
