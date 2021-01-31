@@ -1,8 +1,8 @@
-package test;
+package util.listener;
 
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import screenshot.ScreenshotCreator;
+import util.screenshot.ScreenshotCreator;
 
 public class TestListener implements ITestListener {
 

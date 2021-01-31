@@ -1,5 +1,6 @@
 package test;
 
+import util.listener.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -7,9 +8,9 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import step.Steps;
 
-import static webdriver.WebDriverSetup.getDriver;
+import static util.webdriver.WebDriverSetup.getDriver;
 
-@Listeners(test.TestListener.class)
+@Listeners(TestListener.class)
 public class TestGoogleCloudPage {
 
 	private Steps steps;
@@ -52,7 +53,7 @@ public class TestGoogleCloudPage {
 	}
 
 	@AfterTest
-	public void teardown() {
+	public void tearDown() {
 		steps.quitDriver();
 		steps = null;
 	}

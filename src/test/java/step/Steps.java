@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static waitmanager.WaitManager.waitForElementVisibility;
+import static util.waitmanager.WaitManager.waitForElementVisibility;
 
 public class Steps {
 

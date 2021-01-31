@@ -1,9 +1,9 @@
-package screenshot;
+package util.screenshot;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import webdriver.WebDriverSetup;
+import util.webdriver.WebDriverSetup;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class ScreenshotCreator {
 		StringBuffer failedScreenshotPath = new StringBuffer();
 		failedScreenshotPath.append("reports/");
 		failedScreenshotPath.append(new SimpleDateFormat("yyyy.MM.dd-HH.mm").format(new Date()));
-		failedScreenshotPath.append("-screenshot.jpg");
+		failedScreenshotPath.append("-util.screenshot.jpg");
 
 		try {
 			FileUtils.copyFile(((TakesScreenshot) WebDriverSetup.getDriver()).getScreenshotAs(OutputType.FILE)

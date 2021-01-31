@@ -1,9 +1,9 @@
-package waitmanager;
+package util.waitmanager;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import webdriver.WebDriverSetup;
+import util.webdriver.WebDriverSetup;
 
 public class WaitManager {
 	private static final WebDriverWait wait = new WebDriverWait(WebDriverSetup.getDriver(), 5);
