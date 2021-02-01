@@ -11,19 +11,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ScreenshotCreator {
-
+	
 	public static void getScreenshot() {
-
+		
 		StringBuffer failedScreenshotPath = new StringBuffer();
 		failedScreenshotPath.append("reports/");
 		failedScreenshotPath.append(new SimpleDateFormat("yyyy.MM.dd-HH.mm").format(new Date()));
 		failedScreenshotPath.append("-util.screenshot.jpg");
-
+		
 		try {
 			FileUtils.copyFile(((TakesScreenshot) WebDriverSetup.getDriver()).getScreenshotAs(OutputType.FILE)
-					, new File(String.valueOf(failedScreenshotPath)), true);
+				, new File(String.valueOf(failedScreenshotPath)), true);
 		} catch (
-				IOException e) {
+			IOException e) {
 			e.printStackTrace();
 		}
 	}

@@ -5,40 +5,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class PropertyValueManager {
 	
-	private static Properties properties = getProperties();
+	private static final Properties properties = getValuesFormPropertyFile();
 	private static InputStream inputStream;
+	private static final ResourceBundle resourceBundle
+		= ResourceBundle.getBundle(System.getProperty("businessValues", "values"));
 	
 	public static String getBrowser() {
 		return properties.getProperty("browser");
 	}
 	
-	public int getGPUNumberValue() {
-		return Integer.parseInt(properties.getProperty("gpuNumber"));
+	public static String getTestData(String key) {
+		return resourceBundle.getString(key);
 	}
 	
-	public String getGpuType() {
-		return properties.getProperty("gpuType");
-	}
-	
-	public int getLocalSSDNumber() {
-		return Integer.parseInt(properties.getProperty("localSSDNumber"));
-	}
-	
-	public String getDatacenterLocation() {
-		return properties.getProperty("datacenterLocation");
-	}
-	
-	public int getCommittedUsageNumber() {
-		return Integer.parseInt(properties.getProperty("committedUsageNumber"));
-	}
-	
-	private static Properties getValuesFormPropertyFile() throws IOException {
-		Properties properties = new Properties();
+	private static Properties getValuesFormPropertyFile() {
+		Properties properties;
+		
+		properties = new Properties();
 		try {
-			String propertyFileName = System.getProperty("env","chrome") + ".properties";
+			String propertyFileName = System.getProperty("browser", "chrome") + ".properties";
 			inputStream = PropertyValueManager.class.getClassLoader().getResourceAsStream(propertyFileName);
 			
 			if (inputStream != null) {
@@ -47,19 +36,14 @@ public class PropertyValueManager {
 				throw new FileNotFoundException("property file '" + propertyFileName + "' not found in the classpath");
 			}
 			
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println("Exception: " + e);
 		} finally {
-			Objects.requireNonNull(inputStream).close();
-		}
-		return properties;
-	}
-	
-	private static Properties getProperties() {
-		try {
-			properties = getValuesFormPropertyFile();
-		} catch (IOException e) {
-			e.printStackTrace();
+			try {
+				Objects.requireNonNull(inputStream).close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return properties;
 	}

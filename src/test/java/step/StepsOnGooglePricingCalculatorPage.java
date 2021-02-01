@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import page.googlecloud.GoogleCloudPage;
 import page.googlecloud.GoogleCloudPricingCalculatorPage;
 import page.googlecloud.GoogleCloudResultPage;
 import page.tenminutesmail.TenMinutesMailPage;
@@ -28,73 +27,66 @@ import java.util.Objects;
 
 import static util.waitmanager.WaitManager.waitForElementVisibility;
 
-public class Steps {
-
+public class StepsOnGooglePricingCalculatorPage {
+	
 	private final WebDriver webDriver;
-	private GoogleCloudPage googleCloudPage;
 	private GoogleCloudPricingCalculatorPage googleCloudPricingCalculatorPage;
-	private TenMinutesMailPage tenMinutesMailPage;
-	private ArrayList<String> tabs;
-	private String eMailAddress;
+//	private TenMinutesMailPage tenMinutesMailPage;
+	private static ArrayList<String> tabs;
+//	private String eMailAddress;
 	private final GoogleCloudForm googleCloudForm;
-
-	public Steps(WebDriver webDriver) {
+	
+	public StepsOnGooglePricingCalculatorPage(WebDriver webDriver) {
 		this.webDriver = webDriver;
 		webDriver.manage().window().maximize();
-		eMailAddress = "";
-		PropertyValueManager propertyValueManager = new PropertyValueManager();
+//		eMailAddress = "";
 		this.googleCloudForm = new GoogleCloudForm.BuilderGoogleCloudForm()
-				.withGPUNumber(propertyValueManager.getGPUNumberValue())
-				.withGPUType(propertyValueManager.getGpuType())
-				.withLocalSSDNumber(propertyValueManager.getLocalSSDNumber())
-				.withDatacenterLocation(propertyValueManager.getDatacenterLocation())
-				.withCommittedUsageNumber(propertyValueManager.getCommittedUsageNumber())
-				.build();
+			.withGPUNumber(Integer.parseInt(PropertyValueManager.getTestData("gpuNumber")))
+			.withGPUType(PropertyValueManager.getTestData("gpuType"))
+			.withLocalSSDNumber(Integer.parseInt(PropertyValueManager.getTestData("localSSDNumber")))
+			.withDatacenterLocation(PropertyValueManager.getTestData("datacenterLocation"))
+			.withCommittedUsageNumber(Integer.parseInt(PropertyValueManager.getTestData("committedUsageNumber")))
+			.build();
 	}
-
-	public void openGoogleCloudPage() {
-		googleCloudPage = new GoogleCloudPage(webDriver);
-		webDriver.get("https://cloud.google.com/");
-	}
-
-	public Steps openPricingCalculator() {
-		googleCloudPage.searchField.sendKeys("Google Cloud Platform Pricing Calculator");
-		googleCloudPage.searchField.submit();
+	
+	
+	
+	public StepsOnGooglePricingCalculatorPage openPricingCalculator() {
 		GoogleCloudResultPage googleCloudResultPage = new GoogleCloudResultPage(webDriver);
 		waitForElementVisibility(googleCloudResultPage.searchResult);
 		googleCloudResultPage.searchResult.click();
 		return this;
 	}
-
-	public Steps switchToCalculatorFrame() {
+	
+	public StepsOnGooglePricingCalculatorPage switchToCalculatorFrame() {
 		googleCloudPricingCalculatorPage = new GoogleCloudPricingCalculatorPage(webDriver);
 		webDriver.switchTo().frame(googleCloudPricingCalculatorPage.calculatorIFrame)
-				.switchTo().frame(googleCloudPricingCalculatorPage.internalCalculatorFrame);
+			.switchTo().frame(googleCloudPricingCalculatorPage.internalCalculatorFrame);
 		return this;
 	}
-
-	public Steps inputNumberOfInstances(String number) {
+	
+	public StepsOnGooglePricingCalculatorPage inputNumberOfInstances(String number) {
 		googleCloudPricingCalculatorPage.inputNumberOfInstances.click();
 		googleCloudPricingCalculatorPage.inputNumberOfInstances.sendKeys(number);
 		return this;
 	}
-
-	public Steps selectSeries() {
+	
+	public StepsOnGooglePricingCalculatorPage selectSeries() {
 		googleCloudPricingCalculatorPage.seriesSelectField.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.seriesSelectedOptions);
 		googleCloudPricingCalculatorPage.seriesSelectedOptions.click();
 		return this;
 	}
-
-	public Steps selectMachineType() {
+	
+	public StepsOnGooglePricingCalculatorPage selectMachineType() {
 		waitForElementVisibility(googleCloudPricingCalculatorPage.machineTypeSelectedField);
 		googleCloudPricingCalculatorPage.machineTypeSelectedField.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.machineTypeSelect);
 		googleCloudPricingCalculatorPage.machineTypeSelect.click();
 		return this;
 	}
-
-	public Steps addGPU() {
+	
+	public StepsOnGooglePricingCalculatorPage addGPU() {
 		waitForElementVisibility(googleCloudPricingCalculatorPage.addGPUCheckbox);
 		googleCloudPricingCalculatorPage.addGPUCheckbox.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.numberOfGPUDropdown);
@@ -103,8 +95,8 @@ public class Steps {
 		WebElement numberOfGPU = null;
 		try {
 			numberOfGPU = webDriver
-					.findElement(By.cssSelector(String
-							.format(googleCloudPricingCalculatorPage.numberOfGPULocator, googleCloudForm.getGpuNumber())));
+				.findElement(By.cssSelector(String
+					.format(googleCloudPricingCalculatorPage.getNumberOfGPULocator(), googleCloudForm.getGpuNumber())));
 		} catch (GPUNumberException e) {
 			e.printStackTrace();
 		}
@@ -114,21 +106,21 @@ public class Steps {
 		googleCloudPricingCalculatorPage.gPUTypeDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.gPUTypeOption);
 		WebElement gpuType = webDriver
-				.findElement(By.cssSelector(String
-						.format(googleCloudPricingCalculatorPage.chooseGPUTypeLocator, googleCloudForm.getGpuTypeValue())));
+			.findElement(By.cssSelector(String
+				.format(googleCloudPricingCalculatorPage.getChooseGPUTypeLocator(), googleCloudForm.getGpuTypeValue())));
 		waitForElementVisibility(gpuType);
 		gpuType.click();
 		return this;
 	}
-
-	public Steps addSSD() {
+	
+	public StepsOnGooglePricingCalculatorPage addSSD() {
 		googleCloudPricingCalculatorPage.localSSDDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.localSSDNumberOption);
 		WebElement localSSDNumber = null;
 		try {
 			localSSDNumber = webDriver
-					.findElement(By.cssSelector(String
-							.format(googleCloudPricingCalculatorPage.localSSDNumberLocator, googleCloudForm.getLocalSSDNumber())));
+				.findElement(By.cssSelector(String
+					.format(googleCloudPricingCalculatorPage.getLocalSSDNumberLocator(), googleCloudForm.getLocalSSDNumber())));
 		} catch (LocalSSDNumberException e) {
 			e.printStackTrace();
 		}
@@ -136,26 +128,26 @@ public class Steps {
 		Objects.requireNonNull(localSSDNumber).click();
 		return this;
 	}
-
-	public Steps selectDatacenterLocation() {
+	
+	public StepsOnGooglePricingCalculatorPage selectDatacenterLocation() {
 		googleCloudPricingCalculatorPage.datacenterLocationDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.datacenterLocationOption);
 		WebElement datacenterLocation = webDriver
-				.findElement(By.cssSelector(String
-						.format(googleCloudPricingCalculatorPage.datacenterLocationChoiceLocator, googleCloudForm.getDatacenterLocationValue())));
+			.findElement(By.cssSelector(String
+				.format(googleCloudPricingCalculatorPage.getDatacenterLocationChoiceLocator(), googleCloudForm.getDatacenterLocationValue())));
 		waitForElementVisibility(datacenterLocation);
 		datacenterLocation.click();
 		return this;
 	}
-
-	public Steps selectCommittedUsage() {
+	
+	public StepsOnGooglePricingCalculatorPage selectCommittedUsage() {
 		googleCloudPricingCalculatorPage.committedUsageDropdown.click();
 		waitForElementVisibility(googleCloudPricingCalculatorPage.committedUsageOption);
 		WebElement committedUsageChoice = null;
 		try {
 			committedUsageChoice = webDriver
-					.findElement(By.cssSelector(String
-							.format(googleCloudPricingCalculatorPage.committedUsageChoiceLocator, googleCloudForm.getCommittedUsageNumber())));
+				.findElement(By.cssSelector(String
+					.format(googleCloudPricingCalculatorPage.getCommittedUsageChoiceLocator(), googleCloudForm.getCommittedUsageNumber())));
 		} catch (CommittedUsageException e) {
 			e.printStackTrace();
 		}
@@ -163,78 +155,82 @@ public class Steps {
 		Objects.requireNonNull(committedUsageChoice).click();
 		return this;
 	}
-
+	
 	public void pressAddToEstimate() {
 		googleCloudPricingCalculatorPage.addToEstimateButton.click();
 	}
-
-	public Steps addTenMinutesEMailTab() {
+	
+	public StepsOnGooglePricingCalculatorPage addTenMinutesEMailTab() {
 		((JavascriptExecutor) webDriver).executeScript("window.open('https://10minutemail.com','_blank')");
 		tabs = new ArrayList<>(webDriver.getWindowHandles());
 		return this;
 	}
-
-	public Steps getMailAddressFromTenMinutesMailSite() {
-		webDriver.switchTo().window(tabs.get(1));
-		eMailAddress = getTenMinutesEMailAddressAsString();
-		return this;
-	}
-
-	public Steps inputMailAddressIntoEstimateForm() {
+	
+//	public StepsOnGooglePricingCalculatorPage getMailAddressFromTenMinutesMailSite() {
+//		webDriver.switchTo().window(tabs.get(1));
+//		eMailAddress = StringUtils.getEMailAddressAsString(te);
+//		return this;
+//	}
+	
+	public void inputMailAddressIntoEstimateForm() {
 		webDriver.switchTo().window(tabs.get(0));
 		webDriver.switchTo().frame(googleCloudPricingCalculatorPage.calculatorIFrame)
-				.switchTo().frame(googleCloudPricingCalculatorPage.internalCalculatorFrame);
+			.switchTo().frame(googleCloudPricingCalculatorPage.internalCalculatorFrame);
 		waitForElementVisibility(googleCloudPricingCalculatorPage.eMailEstimateForm);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		googleCloudPricingCalculatorPage.eMailEstimateForm.click();
-		googleCloudPricingCalculatorPage.eMailInputField.sendKeys(eMailAddress);
+		googleCloudPricingCalculatorPage.eMailInputField.sendKeys();
 		googleCloudPricingCalculatorPage.sendEMail.click();
-		return this;
 	}
-
-	public void getMailOnTenMinutesMailBox() {
-		webDriver.switchTo().window(tabs.get(1));
-		tenMinutesMailPage.inboxCount = new WebDriverWait(webDriver, 60)
-				.until(ExpectedConditions.visibilityOf(tenMinutesMailPage.inboxCount));
-		tenMinutesMailPage.inboxCount.click();
-	}
-
-	public String getTextFromMail() {
-		return tenMinutesMailPage.estimateCosInMail.getText();
-	}
-
+	
+//	public void getMailOnTenMinutesMailBox() {
+//		webDriver.switchTo().window(tabs.get(1));
+//		tenMinutesMailPage.inboxCount = new WebDriverWait(webDriver, 60)
+//			.until(ExpectedConditions.visibilityOf(tenMinutesMailPage.inboxCount));
+//		tenMinutesMailPage.inboxCount.click();
+//	}
+	
+//	public String getTextFromMail() {
+//		return tenMinutesMailPage.estimateCosInMail.getText();
+//	}
+	
 	public String getTotalEstimatedCostString() {
 		return googleCloudPricingCalculatorPage.totalCostFieldInComputeEngineForm.getText();
 	}
-
+	
 	public String getTotalEstimateCost() {
-		return StringUtils.getCostFromString(getTotalEstimatedCostString());
+		return StringUtils.getNumberFromString(getTotalEstimatedCostString());
 	}
-
-	public String getEstimateCostFromMail() {
-		return StringUtils.getCostFromString(getTextFromMail());
-	}
-
+	
+//	public String getEstimateCostFromMail() {
+//		return StringUtils.getNumberFromString(getTextFromMail());
+//	}
+	
 	public void quitDriver() {
 		if (webDriver != null) {
 			webDriver.quit();
 		}
 	}
-
-	private String getTenMinutesEMailAddressAsString() {
-		tenMinutesMailPage = new TenMinutesMailPage(webDriver);
-		tenMinutesMailPage.eMailAddress.click();
-		String resultMailAddress = "";
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		Transferable contents = clipboard.getContents(null);
-		boolean hasStringText = (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
-		if (hasStringText) {
-			try {
-				resultMailAddress = (String) contents.getTransferData(DataFlavor.stringFlavor);
-			} catch (UnsupportedFlavorException | IOException ex) {
-				System.out.println(ex);
-				ex.printStackTrace();
-			}
-		}
-		return resultMailAddress;
-	}
+	
+//	private String getTenMinutesEMailAddressAsString() {
+//		tenMinutesMailPage = new TenMinutesMailPage(webDriver);
+//		tenMinutesMailPage.eMailAddress.click();
+//		String resultMailAddress = "";
+//		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+//		Transferable contents = clipboard.getContents(null);
+//		boolean hasStringText = (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
+//		if (hasStringText) {
+//			try {
+//				resultMailAddress = (String) contents.getTransferData(DataFlavor.stringFlavor);
+//			} catch (UnsupportedFlavorException | IOException ex) {
+//				System.out.println(ex);
+//				ex.printStackTrace();
+//			}
+//		}
+//		return resultMailAddress;
+//	}
 }

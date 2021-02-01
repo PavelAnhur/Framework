@@ -1,60 +1,71 @@
 package test;
 
-import util.listener.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import step.Steps;
+import property.PropertyValueManager;
+import step.StepsOnGoogleCloudPage;
+import step.StepsOnGooglePricingCalculatorPage;
+import step.StepsOnTenMinutesMailPage;
+import util.listener.TestListener;
 
 import static util.webdriver.WebDriverSetup.getDriver;
 
 @Listeners(TestListener.class)
 public class TestGoogleCloudPage {
-
-	private Steps steps;
+	
+	private StepsOnGooglePricingCalculatorPage stepsOnGooglePricingCalculatorPage;
+	private StepsOnTenMinutesMailPage stepsOnTenMinutesMailPage;
 	private String totalCostEstimateCost;
-
+	
 	public TestGoogleCloudPage() {
 		this.totalCostEstimateCost = "";
 	}
-
+	
 	@BeforeTest
 	public void setupClass() {
-		steps = new Steps(getDriver());
-		steps.openGoogleCloudPage();
+		new StepsOnGoogleCloudPage(getDriver())
+			.openGoogleCloudPage()
+			.inputSearchTerm();
 	}
-
+	
 	@Test
 	public void googleCloudPageTest() {
-		steps.openPricingCalculator()
-				.switchToCalculatorFrame()
-				.inputNumberOfInstances("4")
-				.selectSeries()
-				.selectMachineType()
-				.addGPU()
-				.addSSD()
-				.selectDatacenterLocation()
-				.selectCommittedUsage()
-				.pressAddToEstimate();
-		totalCostEstimateCost = steps.getTotalEstimateCost();
+		stepsOnGooglePricingCalculatorPage = new StepsOnGooglePricingCalculatorPage(getDriver());
+		stepsOnGooglePricingCalculatorPage
+			.openPricingCalculator()
+			.switchToCalculatorFrame()
+			.inputNumberOfInstances(PropertyValueManager.getTestData("numberOfInstances"))
+			.selectSeries()
+			.selectMachineType()
+			.addGPU()
+			.addSSD()
+			.selectDatacenterLocation()
+			.selectCommittedUsage()
+			.pressAddToEstimate();
+		totalCostEstimateCost = stepsOnGooglePricingCalculatorPage.getTotalEstimateCost();
 	}
-
+	
 	@Test
 	public void tenMinutesMailPageTest() {
-		steps.addTenMinutesEMailTab()
-				.getMailAddressFromTenMinutesMailSite()
-				.inputMailAddressIntoEstimateForm()
-				.getMailOnTenMinutesMailBox();
-		String estimateCostFromMail = steps.getEstimateCostFromMail();
-
+		stepsOnTenMinutesMailPage = new StepsOnTenMinutesMailPage(getDriver());
+		stepsOnTenMinutesMailPage
+			.addTenMinutesEMailTab()
+			.getMailAddressFromTenMinutesMailSite();
+		stepsOnGooglePricingCalculatorPage
+			.inputMailAddressIntoEstimateForm();
+		stepsOnTenMinutesMailPage
+			.getMailOnTenMinutesMailBox();
+		String estimateCostFromMail = stepsOnTenMinutesMailPage.getEstimateCostFromMail();
+		
 		Assert.assertEquals(totalCostEstimateCost, estimateCostFromMail);
 	}
-
-	@AfterTest
+	
+	@AfterTest(alwaysRun = true)
 	public void tearDown() {
-		steps.quitDriver();
-		steps = null;
+		stepsOnGooglePricingCalculatorPage.quitDriver();
+		stepsOnGooglePricingCalculatorPage = null;
 	}
 }

@@ -7,10 +7,10 @@ import util.webdriver.WebDriverSetup;
 
 public class WaitManager {
 	private static final WebDriverWait wait = new WebDriverWait(WebDriverSetup.getDriver(), 5);
-
+	
 	private WaitManager() {
 	}
-
+	
 	public static void waitForElementVisibility(WebElement element) {
 		wait.until(ExpectedConditions.visibilityOf(element));
 	}
