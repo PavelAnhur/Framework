@@ -1,11 +1,8 @@
 package test;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
-import property.PropertyValueManager;
+import org.testng.annotations.*;
+import property.PropertyDataReader;
 import step.StepsOnGoogleCloudPage;
 import step.StepsOnGooglePricingCalculatorPage;
 import step.StepsOnTenMinutesMailPage;
@@ -24,7 +21,7 @@ public class TestGoogleCloudPage {
 		this.totalCostEstimateCost = "";
 	}
 	
-	@BeforeTest
+	@BeforeClass
 	public void setupClass() {
 		new StepsOnGoogleCloudPage(getDriver())
 			.openGoogleCloudPage()
@@ -37,7 +34,7 @@ public class TestGoogleCloudPage {
 		stepsOnGooglePricingCalculatorPage
 			.openPricingCalculator()
 			.switchToCalculatorFrame()
-			.inputNumberOfInstances(PropertyValueManager.getTestData("numberOfInstances"))
+			.inputNumberOfInstances(PropertyDataReader.getTestBusinessValues("numberOfInstances"))
 			.selectSeries()
 			.selectMachineType()
 			.addGPU()
@@ -63,7 +60,7 @@ public class TestGoogleCloudPage {
 		Assert.assertEquals(totalCostEstimateCost, estimateCostFromMail);
 	}
 	
-	@AfterTest(alwaysRun = true)
+	@AfterClass(alwaysRun = true)
 	public void tearDown() {
 		stepsOnGooglePricingCalculatorPage.quitDriver();
 		stepsOnGooglePricingCalculatorPage = null;
